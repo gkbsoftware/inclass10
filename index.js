@@ -15,6 +15,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.set('views', __dirname + '/views');
+app.set('view engine', 'jsx');
+app.engine('jsx', require('express-react-views').createEngine());
+
 var port = process.env.PORT || 8000;
 var conString = process.env.DATABASE_URL || "postgres://localhost/bewd_twitter";
 
@@ -43,8 +47,9 @@ app.get('/tweets', function (req, res) {
       if (err) {
         return console.error('error running query', err);
       }
-      // console.log(result.rows[0].number);
-      res.json(result.rows);
+      res.render('tweets', {data: result});
+
+      // res.json(result.rows);
     });
 
   });
@@ -56,7 +61,7 @@ app.post('/tweets', function(req, res) {
     if (err) {
       return console.error('error fetching client from pool', err);
     }
-    client.query('INSERT INTO tweets (body, created_at) VALUES ($1, now())', [req.body.mytweet] , function(err, result) {
+    client.query('INSERT INTO tweets (body, username, created_at) VALUES ($1, $2, now())', [req.body.mytweet, req.body.username] , function(err, result) {
       done();
       if (err) {
         return console.error('error running query', err);
