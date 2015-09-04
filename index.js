@@ -20,7 +20,7 @@ app.set('view engine', 'jsx');
 app.engine('jsx', require('express-react-views').createEngine());
 
 var port = process.env.PORT || 8000;
-var conString = process.env.DATABASE_URL || "postgres://fanpfwfgzyodve:EJN5lcErrK-a2XcMVEGpLcMsmH@ec2-54-197-245-93.compute-1.amazonaws.com:5432/dfvkrik29aveht";
+var conString = process.env.DATABASE_URL || "postgres://fanpfwfgzyodve:EJN5lcErrK-a2XcMVEGpLcMsmH@ec2-54-197-245-93.compute-1.amazonaws.com:5432/dfvkrik29aveht?ssl=true";
 
 var pg = require('pg');
 var conString = "postgres://"+ process.env.DATABASE_USERNAME + ":" + process.env.DATABASE_PASSWORD + "@localhost/" + process.env.DATABASE_NAME;
